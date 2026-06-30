@@ -1,0 +1,25 @@
+la version de Python utilisée par .venv/bin/python
+c'est celle utilisée lors de la création du venv par "python3.14 -m venv .venv"
+
+dans requirements.txt
+	nom des packages utilisés
+
+	pour figer plus précisément les versions :
+		.venv/bin/pip freeze > requirements.txt
+
+flake et black
+	flake8
+		vérifier la qualité du code sans modifier
+
+	black
+		formater le code
+
+	de base :
+	● Black utilise 88 caractères par ligne
+	● Flake8 utilise 79 caractères par ligne
+
+	config dans .flake
+		extend-ignore = E203, W503
+			ça évite des conflits potentiels avec Black
+
+		on ignore les erreurs dans le venv et le pycache

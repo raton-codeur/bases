@@ -1,0 +1,90 @@
+changer la version de python
+	dans .python-version
+		c'est la version qu'uv (télécharge et) utilise pour :
+		● créer le venv
+		● installer les paquets
+		● exécuter le code
+
+		si on la modifie, il faut faire "uv sync"
+		pour recréer si besoin le venv avec la bonne version
+
+	dans le pyproject.toml, à "requires-python"
+		c'est une contrainte de compatibilité pour le projet
+
+		exemple :
+			requires-python = ">=3.10"
+			et version dans .python-version : 3.11
+
+		si .python-version existe pas,
+		uv choisit une version qui satisfait la contrainte
+		(généralement la plus récente disponible)
+
+à modifier dans pyproject.toml :
+	- name
+	- version
+	- requires-python
+
+à rajouter si on veut dans pyproject.toml :
+	- description du projet
+	- readme
+	- author
+	- license
+
+[ajouter / supprimer] une dépendance
+	ça modifie pyproject.toml et uv.lock
+
+	uv [add / remove] numpy
+
+	ajouter sans version précise
+		uv add --raw numpy
+
+	supprimer toutes les dépendances
+		uv remove --all
+
+créer le venv sans installer les dépendances
+	uv venv
+
+	c'est équivalent à
+		python -m venv .venv
+
+	inutile puisque les autres commandes le font (uv add, uv sync, uv run)
+
+utiliser un requirements.txt
+	uv pip install -r requirements.txt
+
+	inutile
+
+uv sync
+	créer le venv et installer les paquets
+	à partir du pyproject.toml et uv.lock
+
+	inutile pour nous.
+	c'est plutôt quand on distribue le code,
+	pour que les gens retrouvent le même environnement
+
+on peut mettre les fichiers sources dans un dossier "src"
+
+tests
+	uv add --dev pytest
+
+	dossier "tests"
+
+	pour un fichier utils.py
+	→ test_utils.py (doit commencer par "test_"
+	→ fonctions qui commencent aussi par "test_"
+
+	contenu de utils.py :
+		def add(a, b):
+			return a + b
+
+	contenu de test_utils.py :
+		from utils import add
+		def test_add():
+			assert add(2, 3) == 5
+
+	lancer les tests :
+		uv run pytest
+
+dans la règle "clean" du makefile,
+normalement il faut garder uv.lock
+mais je m'en sers pas
